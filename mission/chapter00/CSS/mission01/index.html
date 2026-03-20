@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS 실습</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="navbar__container">
+            
+            <div class="navbar__logo">
+                <div class="navbar__logo-icon"></div>
+                <span class="navbar__brand-name">Aido</span>
+            </div>
+
+            <div class="navbar__menu">
+                <span class="navbar__menu-item navbar__menu-item--hide-mobile">고양이 친구들</span>
+                <a href="#" class="navbar__btn-notify navbar__menu-item--hide-mobile">출시 알림 받기</a>
+                
+                <div class="lang-toggle">
+                    <button id="btn-ko" class="lang-toggle__btn">KO</button>
+                    <button id="btn-en" class="lang-toggle__btn">EN</button>
+                </div>
+            </div>
+
+        </div>
+    </nav>
+
+    <script>
+        const path = window.location.pathname;
+        const btnKo = document.getElementById('btn-ko');
+        const btnEn = document.getElementById('btn-en');
+
+        if (path.includes('/en')) {
+            btnEn.classList.add('lang-toggle__btn--active');
+        } else {
+            btnKo.classList.add('lang-toggle__btn--active');
+        }
+    </script>
+</body>
+</html>
