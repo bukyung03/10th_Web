@@ -20,22 +20,13 @@ const createTodoItem = (text: string, isDone: boolean): HTMLLIElement => {
 
     const span = document.createElement('span');
     span.className = 'todo-item__text';
-    span.innerText = text;
+    span.textContent = text;
 
     const button = document.createElement('button');
     button.className = isDone 
         ? 'todo-item__button todo-item__button--delete' 
         : 'todo-item__button todo-item__button--complete';
-    button.innerText = isDone ? '삭제' : '완료';
-
-    // 버튼 클릭 이벤트
-    button.onclick = () => {
-        if (!isDone) {
-            moveToDone(li, text);
-        } else {
-            li.remove();
-        }
-    };
+    button.textContent = isDone ? '삭제' : '완료';
 
     li.appendChild(span);
     li.appendChild(button);
@@ -43,10 +34,17 @@ const createTodoItem = (text: string, isDone: boolean): HTMLLIElement => {
 };
 
 // 해낸 일
-const moveToDone = (li: HTMLLIElement, text: string): void => {
-    li.remove(); // 원래 목록에서 제거
-    const doneItem = createTodoItem(text, true);
-    doneList.appendChild(doneItem);
+const moveToDone = (li: HTMLLIElement): void => {
+    const button = li.querySelector('button') as HTMLButtonElement;
+    if (button) {
+        button.className = 'todo-item__button todo-item__button--delete';
+        button.textContent = '삭제';
+
+        button.onclick = () => {
+            li.remove();
+        };
+    }
+    doneList.appendChild(li);
 };
 
 addButton.addEventListener('click', addTodo);
