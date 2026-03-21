@@ -17,8 +17,12 @@
             </div>
 
             <div class="navbar__menu">
-                <span class="navbar__menu-item navbar__menu-item--hide-mobile">고양이 친구들</span>
-                <a href="#" class="navbar__btn-notify navbar__menu-item--hide-mobile">출시 알림 받기</a>
+                <span class="navbar__menu-item lang-target"
+                    data-ko="고양이 친구들"
+                    data-en="Cat Friends">고양이 친구들</span>
+                <a href="#" class="navbar__btn-notify lang-target"
+                    data-ko = "패치 노트"
+                    data-en = "Patch Notes">패치 노트</a>
                 
                 <div class="lang-toggle">
                     <button id="btn-ko" class="lang-toggle__btn">KO</button>
@@ -30,15 +34,33 @@
     </nav>
 
     <script>
-        const path = window.location.pathname;
         const btnKo = document.getElementById('btn-ko');
         const btnEn = document.getElementById('btn-en');
+        // lang-target 클래스를 가진 모든 요소를 가져옴
+        const langTargets = document.querySelectorAll('.lang-target');
 
-        if (path.includes('/en')) {
-            btnEn.classList.add('lang-toggle__btn--active');
-        } else {
-            btnKo.classList.add('lang-toggle__btn--active');
+        function changeLanguage(lang){
+            // 버튼 스타일
+            if (lang ==='ko'){
+                btnKo.classList.add('lang-toggle__btn--active');
+                btnEn.classList.remove('lang-toggle__btn--active');
+            } else {
+                btnEn.classList.add('lang-toggle__btn--active');
+                btnKo.classList.remove('lang-toggle__btn--active');
+            }
+
+            langTargets.forEach(target => {
+                target.textContent = target.getAttribute(`data-${lang}`);
+            });
         }
+
+        // 한국어 버튼
+        btnKo.addEventListener('click',()=>changeLanguage('ko'));
+        // 영어 버튼
+        btnEn.addEventListener('click',()=>changeLanguage('en'));
+
+        // 첫 시작 화면 기본값을 한국어로 설정
+        changeLanguage('ko');
     </script>
 </body>
 </html>

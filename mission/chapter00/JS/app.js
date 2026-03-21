@@ -7,11 +7,12 @@ const todoList = document.getElementById('todo-list');
 const doneList = document.getElementById('done-list');
 
 input.addEventListener('keydown', (event) => {
+    if (event.isComposing) return;
     // space만하고 enter 방지 .trim
     if (event.key === 'Enter' && input.value.trim() !== "") {
         console.log("enter 확인, 입력값:", input.value)
         addTodo(input.value);
-        input.value = "" // 비우기
+        input.value = ""
     }
 });
 
@@ -35,12 +36,12 @@ function addTodo(text) {
 }
 
 function completeTodo(li) {
-    const btn = li.querySelector('button');
-    btn.innerText = "삭제";
-
-
-    btn.onclick = function() {
-        li.remove();
-    };
-    doneList.appendChild(li); 
+    const btn = li.querySelector('.complete-btn');
+    if (btn) {
+        btn.innerText = "삭제";
+        btn.onclick = function() {
+            li.remove();
+        };
+        doneList.appendChild(li); 
+    }
 }
