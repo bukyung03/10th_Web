@@ -1,10 +1,10 @@
 import clsx from 'clsx';
-import { useTheme, THEME } from './ThemeProvider';
-import ThemeToggleButton from './ThemeToggleButton';
+import { useTheme } from './ThemeProvider';
+import ThemeToggleButton from './ThemeToggleButton.tsx';
 
 export default function Navbar() {
   const { theme } = useTheme();
-  const isLightMode = theme === THEME.LIGHT;
+  const isLightMode = theme === 'LIGHT';
 
   return (
     <nav className={clsx(

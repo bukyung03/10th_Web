@@ -1,10 +1,5 @@
 import { createContext, useContext, useState, type PropsWithChildren } from 'react';
 
-export const THEME = {
-  LIGHT: 'LIGHT',
-  DARK: 'DARK',
-} as const;
-
 type TTheme = 'LIGHT' | 'DARK';
 
 interface IThemeContext {
@@ -15,10 +10,10 @@ interface IThemeContext {
 export const ThemeContext = createContext<IThemeContext | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
-  const [theme, setTheme] = useState<TTheme>(THEME.LIGHT);
+  const [theme, setTheme] = useState<TTheme>('LIGHT');
 
   const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === THEME.LIGHT ? THEME.DARK : THEME.LIGHT));
+    setTheme((prevTheme) => (prevTheme === 'LIGHT' ? 'DARK' : 'LIGHT'));
   };
 
   return (
