@@ -1,23 +1,32 @@
-import { createContext, useContext, useState, type PropsWithChildren } from 'react';
+import { createContext, useCallback, useContext, useMemo, useState, type PropsWithChildren } from 'react';
 
 type TTheme = 'LIGHT' | 'DARK';
 
 interface IThemeContext {
   theme: TTheme;
+  setTheme: (theme: TTheme) => void;
   toggleTheme: () => void;
 }
 
 export const ThemeContext = createContext<IThemeContext | undefined>(undefined);
 
 export const ThemeProvider = ({ children }: PropsWithChildren) => {
-  const [theme, setTheme] = useState<TTheme>('LIGHT');
+  const [theme, setThemeState] = useState<TTheme>('LIGHT');
 
-  const toggleTheme = () => {
-    setTheme((prevTheme) => (prevTheme === 'LIGHT' ? 'DARK' : 'LIGHT'));
-  };
+  const setTheme = useCallback((newTheme: TTheme) => {
+    setThemeState(newTheme);
+  },[]);
+
+  const toggleTheme = useCallback(() => {
+    setThemeState((prev) => (prev === 'LIGHT' ? 'DARK' : 'LIGHT'));
+  },[]);
+
+  const value = useMemo(()=>({
+    theme, setTheme, toggleTheme
+  }), [theme, setTheme, toggleTheme]);
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={value}>
       {children}
     </ThemeContext.Provider>
   );
