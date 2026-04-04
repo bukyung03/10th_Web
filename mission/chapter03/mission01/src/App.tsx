@@ -7,19 +7,19 @@ function App() {
   const [movieData, setMovieData] = useState<IMovie[]>([]);
   const [isPending, setIsPending] = useState<boolean>(true);
 
-  const initMovieData = async () => {
-    try {
-      setIsPending(true);
-      const data = await getPopularMovies();
-      setMovieData(data.results);
-    } catch (err) {
-      console.error("데이터 로드 중 에러 발생:", err);
-    } finally {
-      setIsPending(false);
-    }
-  };
-
   useEffect(() => {
+    const initMovieData = async () => {
+      try {
+        setIsPending(true);
+        const data = await getPopularMovies();
+        setMovieData(data.results);
+      } catch (err) {
+        console.error("데이터 로드 중 에러 발생:", err);
+      } finally {
+        setIsPending(false);
+      }
+    };
+
     initMovieData();
   }, []);
 
@@ -30,7 +30,7 @@ function App() {
       <header className="mb-12 border-b border-zinc-800 pb-5">
         <h1 className="text-2xl font-black text-white uppercase tracking-widest">Inha Popular</h1>
       </header>
-      
+
       <main className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6">
         {movieData.map((movie) => (
           <MovieItem key={movie.id} movie={movie} />

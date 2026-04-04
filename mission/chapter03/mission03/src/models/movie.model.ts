@@ -12,6 +12,8 @@ export interface IMovie {
 
 export interface IMovieListResponse {
   results: IMovie[];
+  total_pages: number;
+
 }
 
 export interface ICast {

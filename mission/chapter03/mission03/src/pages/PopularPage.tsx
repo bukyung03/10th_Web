@@ -6,6 +6,7 @@ import { MovieItem } from '../components/MovieItem';
 const PopularPage = () => {
   const [movies, setMovies] = useState<IMovie[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
   const [isLoading, setIsLoading] = useState(true); 
   const [error, setError] = useState<string | null>(null);
 
@@ -16,6 +17,7 @@ const PopularPage = () => {
         setError(null);
         const data = await getMovies('popular', currentPage);
         setMovies(data.results);
+        setTotalPages(data.total_pages);
       } catch (err) {
         setError("영화 데이터를 가져오는 중 오류가 발생했습니다. 토큰을 확인하세요!");
       } finally {
@@ -60,6 +62,7 @@ const PopularPage = () => {
         
         <button 
           onClick={() => setCurrentPage(prev => prev + 1)}
+          disabled={currentPage === totalPages}
           className="px-6 py-2 bg-zinc-800 text-white rounded-md hover:bg-zinc-700 transition-colors"
         >
           다음

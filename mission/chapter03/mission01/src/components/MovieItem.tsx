@@ -3,10 +3,10 @@ import type { IMovie } from '../models/movie.model';
 interface MovieItemProps {
   movie: IMovie;
 }
+// 컴포넌트 밖으로 꺼냄
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
 export const MovieItem = ({ movie }: MovieItemProps) => {
-  const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
-
   return (
     <div className="group flex flex-col bg-[#1c1c1c] rounded-md shadow-2xl overflow-hidden transition-all duration-500 hover:-translate-y-2">
       <div className="relative aspect-[2/3]">
