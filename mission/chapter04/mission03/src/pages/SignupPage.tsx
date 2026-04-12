@@ -9,11 +9,15 @@ import NicknameStep from '../components/signup/NicknameStep';
 
 type Step = 'email' | 'password' | 'nickname';
 
+interface SignupForm {
+  email: string;
+  password: string;
+}
+
 const SignupPage = () => {
   const navigate = useNavigate();
   const [step, setStep] = useState<Step>('email');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [form, setForm] = useState<SignupForm>({ email: '', password: '' });
   const [serverError, setServerError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -21,12 +25,12 @@ const SignupPage = () => {
   const { setValue: setRefreshToken } = useLocalStorage<string>('refreshToken', '');
 
   const handleEmailNext = (value: string) => {
-    setEmail(value);
+    setForm(prev => ({ ...prev, email: value }));
     setStep('password');
   };
 
   const handlePasswordNext = (value: string) => {
-    setPassword(value);
+  setForm(prev => ({ ...prev, password: value }));
     setStep('nickname');
   };
 
@@ -34,7 +38,7 @@ const SignupPage = () => {
     try {
       setIsLoading(true);
       setServerError(null);
-      const data = await signup({ email, password, passwordConfirm: password, name });
+      const data = await signup({ ...form, passwordConfirm: form.password, name });
       setAccessToken(data.accessToken);
       setRefreshToken(data.refreshToken);
       navigate('/');
@@ -74,7 +78,7 @@ const SignupPage = () => {
         )}
 
         {step === 'email' && <EmailStep onNext={handleEmailNext} />}
-        {step === 'password' && <PasswordStep email={email} onNext={handlePasswordNext} />}
+        {step === 'password' && <PasswordStep email={form.email} onNext={handlePasswordNext} />}
         {step === 'nickname' && <NicknameStep onSubmit={handleSignup} isLoading={isLoading} />}
       </div>
     </div>
