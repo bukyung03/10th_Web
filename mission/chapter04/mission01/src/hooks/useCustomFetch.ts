@@ -19,7 +19,7 @@ export function useCustomFetch<T>(
   useEffect(() => {
     let cancelled = false;
 
-    const fetch = async () => {
+    const fetchData = async () => {
       try {
         setIsLoading(true);
         setError(null);
@@ -38,11 +38,11 @@ export function useCustomFetch<T>(
       }
     };
 
-    fetch();
+    fetchData();
 
     return () => { cancelled = true; };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [depsKey]);
+    //fetchFn을 의존성 배열에 추가함
+  }, [fetchFn, depsKey]);
 
   return { data, isLoading, error };
 }

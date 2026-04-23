@@ -19,7 +19,7 @@ const MovieListPage = ({ category, title }: MovieListPageProps) => {
     [category, currentPage]
   );
 
-  const { data, isLoading, error } = useCustomFetch<IMovieListResponse>(fetchFn, [category, currentPage]);
+  const { data, isLoading, error } = useCustomFetch<IMovieListResponse>(fetchFn);
 
   if (isLoading) return <LoadingSpinner />;
   if (error) return <ErrorMessage message={error} />;

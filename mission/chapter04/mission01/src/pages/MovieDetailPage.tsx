@@ -12,8 +12,8 @@ const MovieDetailPage = () => {
   const detailFetch = useCallback(() => getMovieDetails(movieId!), [movieId]);
   const creditFetch = useCallback(() => getMovieCredits(movieId!), [movieId]);
 
-  const { data: detail, isLoading: detailLoading, error: detailError } = useCustomFetch<IMovie>(detailFetch, [movieId]);
-  const { data: credits, isLoading: creditsLoading, error: creditsError } = useCustomFetch<ICreditResponse>(creditFetch, [movieId]);
+  const { data: detail, isLoading: detailLoading, error: detailError } = useCustomFetch<IMovie>(detailFetch);
+  const { data: credits, isLoading: creditsLoading, error: creditsError } = useCustomFetch<ICreditResponse>(creditFetch);
 
   if (detailLoading || creditsLoading) return <LoadingSpinner />;
   if (detailError) return <ErrorMessage message={detailError} />;
