@@ -112,7 +112,7 @@ const LpDetailPage = () => {
       alert('로그인이 필요합니다.');
       return;
     }
-    if (!commentInput.trim()) return;
+    if (commentMutation.isPending ||!commentInput.trim()) return;
     commentMutation.mutate();
   };
 

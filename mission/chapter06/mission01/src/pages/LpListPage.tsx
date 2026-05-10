@@ -12,14 +12,13 @@ const LpListPage = () => {
   const { accessToken } = useAuth();
   const navigate = useNavigate();
 
-  const { data, isLoading, isError, refetch } = useQuery({
+  const { data: lps = [], isLoading, isError, refetch } = useQuery({
     queryKey: ['lps', sort],
     queryFn: () => getLpList(sort),
     staleTime: 1000 * 60 * 5,
     gcTime: 1000 * 60 * 10,
+    select: (res) => res.data.data,
   });
-
-  const lps = data?.data?.data ?? [];
 
   // 플로팅 버튼 클릭 시 로그인 필요
   const handleCreate = () => {
