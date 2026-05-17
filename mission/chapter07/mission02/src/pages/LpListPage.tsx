@@ -79,7 +79,7 @@ const LpListPage = () => {
       {/* 정렬 버튼 */}
       <div className="flex justify-end mb-4 gap-2">
         <button
-          onClick={() => setSort('asc')}
+          onClick={() => {setSort('asc'); window.scrollTo(0,0); }}
           className={`px-4 py-1.5 text-sm rounded-full border transition-colors ${
             sort === 'asc'
               ? 'bg-white text-black border-white font-semibold'
@@ -89,7 +89,7 @@ const LpListPage = () => {
           오래된순
         </button>
         <button
-          onClick={() => setSort('desc')}
+          onClick={() => {setSort('desc'); window.scrollTo(0,0);}}
           className={`px-4 py-1.5 text-sm rounded-full border transition-colors ${
             sort === 'desc'
               ? 'bg-white text-black border-white font-semibold'

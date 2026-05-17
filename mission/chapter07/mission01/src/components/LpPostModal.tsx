@@ -14,7 +14,6 @@ function LpPostModal({ isOpen, onClose }: LpPostModalProps) {
   const [tags, setTags] = useState<string[]>([]);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const queryClient = useQueryClient();
 
@@ -38,9 +37,6 @@ function LpPostModal({ isOpen, onClose }: LpPostModalProps) {
       queryClient.invalidateQueries({ queryKey: ["lps"] });
       resetForm();
       onClose();
-    },
-    onSettled: () => {
-      setIsSubmitting(false);
     },
   });
 
@@ -97,8 +93,6 @@ function LpPostModal({ isOpen, onClose }: LpPostModalProps) {
       return;
     }
 
-    setIsSubmitting(true);
-
     try {
       const thumbnail = selectedFile
         ? await uploadLpThumbnail(selectedFile)
@@ -112,7 +106,6 @@ function LpPostModal({ isOpen, onClose }: LpPostModalProps) {
         thumbnail,
       });
     } catch (error) {
-      setIsSubmitting(false);
       console.error(error);
       alert("LP 생성에 실패했습니다. 다시 시도해주세요.");
     }
@@ -224,10 +217,10 @@ function LpPostModal({ isOpen, onClose }: LpPostModalProps) {
           <button
             type="button"
             onClick={handleSubmit}
-            disabled={isSubmitting}
+            disabled={mutation.isPending}
             className="mt-1 w-full rounded-2xl bg-pink-500 px-6 py-3 text-sm font-semibold text-white transition hover:bg-pink-400 disabled:cursor-not-allowed disabled:bg-pink-600/70"
           >
-            {isSubmitting ? "Posting..." : "Add LP"}
+            {mutation.isPending ? "Posting..." : "Add LP"}
           </button>
         </div>
       </div>
@@ -236,4 +229,3 @@ function LpPostModal({ isOpen, onClose }: LpPostModalProps) {
 }
 
 export default LpPostModal;
-
