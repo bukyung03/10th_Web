@@ -31,13 +31,25 @@ function LpPostModal({ isOpen, onClose }: LpPostModalProps) {
     };
   }, [selectedFile]);
 
+  // 📌 통합된 Mutation 구조 (완벽 반영)
   const mutation = useMutation({
-    mutationFn: createLp,
+    mutationFn: async (payload: { title: string; content: string; tags: string[]; published: boolean }) => {
+      const thumbnail = selectedFile ? await uploadLpThumbnail(selectedFile) : undefined;
+
+      return createLp({
+        ...payload,
+        thumbnail,
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["lps"] });
       resetForm();
       onClose();
     },
+    onError: (error) => {
+      console.error(error);
+      alert("LP 생성에 실패했습니다. 다시 시도해주세요.");
+    }
   });
 
   const resetForm = () => {
@@ -82,7 +94,8 @@ function LpPostModal({ isOpen, onClose }: LpPostModalProps) {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = async () => {
+  // 📌 깔끔하게 정리된 handleSubmit (중복 파편 완벽 제거!)
+  const handleSubmit = () => {
     if (!lpName.trim() || !lpContent.trim()) {
       alert("LP 제목과 내용을 모두 입력해주세요.");
       return;
@@ -93,23 +106,13 @@ function LpPostModal({ isOpen, onClose }: LpPostModalProps) {
       return;
     }
 
-    try {
-      const thumbnail = selectedFile
-        ? await uploadLpThumbnail(selectedFile)
-        : undefined;
-
-      await mutation.mutateAsync({
-        title: lpName,
-        content: lpContent,
-        tags,
-        published: true,
-        thumbnail,
-      });
-    } catch (error) {
-      console.error(error);
-      alert("LP 생성에 실패했습니다. 다시 시도해주세요.");
-    }
-  };
+    mutation.mutate({
+      title: lpName,
+      content: lpContent,
+      tags,
+      published: true,
+    });
+  }; // ➔ 여기서 handleSubmit이 완벽하게 깔끔히 끝납니다!
 
   if (!isOpen) return null;
 
